@@ -1,22 +1,27 @@
-// middleware.ts
-import type { NextRequest } from 'next/server'
-import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
+
+const CANONICAL = 'shiny-tapioca-ef8b3d.netlify.app';
 
 export function middleware(req: NextRequest) {
-  const url = req.nextUrl.clone()
+  const url = req.nextUrl.clone();
 
-  // Normalize repeated slashes in PATH ONLY (keep protocol/host/query)
-  const normalizedPath = url.pathname.replace(/\/{2,}/g, '/')
-
-  if (normalizedPath !== url.pathname) {
-    url.pathname = normalizedPath
-    // 308 = permanent, preserves method/body if needed
-    return NextResponse.redirect(url, 308)
+  // (Optional) force canonical host (www or custom domain → your Netlify URL)
+  if (url.hostname !== CANONICAL) {
+    url.hostname = CANONICAL;
+    return NextResponse.redirect(url, 308);
   }
 
-  return NextResponse.next()
+  // Collapse multiple slashes in PATH only (keep protocol/host/query)
+  const normalizedPath = url.pathname.replace(/\/{2,}/g, '/');
+  if (normalizedPath !== url.pathname) {
+    url.pathname = normalizedPath;
+    return NextResponse.redirect(url, 308);
+  }
+
+  return NextResponse.next();
 }
 
 export const config = {
-  matcher: '/:path*',
-}
+  matcher: '/:path*', // run for all paths
+};

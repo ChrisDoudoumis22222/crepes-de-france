@@ -3,10 +3,10 @@ const nextConfig = {
   reactStrictMode: true,
   async redirects() {
     return [
-      // Normalize exact double-slash root -> "/"
+      // Normalize exact double-slash root
       { source: '//', destination: '/', permanent: true },
 
-      // Normalize paths ending with a double slash -> "/:path*"
+      // Normalize any path ending with a double slash
       { source: '/:path*//', destination: '/:path*', permanent: true },
     ];
   },
