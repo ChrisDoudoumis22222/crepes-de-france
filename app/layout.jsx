@@ -4,6 +4,7 @@ import Header from "./components/Header";
 import Loading from "./loading";
 import { Suspense } from "react";
 import BootLoader from "./components/BootLoader";
+import ClientUrlNormalizer from "./ClientUrlNormalizer"; // ← add this
 
 export const metadata = {
   title: "Crepes de France - Νεα Φιλαδέλφια",
@@ -41,6 +42,9 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body>
+        {/* Normalize any accidental double slashes ASAP on the client */}
+        <ClientUrlNormalizer />
+
         <div className="min-h-screen flex flex-col">
           <Header />
           <main className="mx-auto max-w-6xl w-full px-4 pb-16 pt-6 sm:pt-10">
