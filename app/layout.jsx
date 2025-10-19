@@ -1,14 +1,13 @@
-// app/layout.tsx
-import type { Metadata } from "next";
+// app/layout.jsx
 import "./globals.css";
 import Header from "./components/Header";
 import Loading from "./loading";
-import { Suspense, ReactNode } from "react";
+import { Suspense } from "react";
 import BootLoader from "./components/BootLoader";
-import ClientUrlNormalizer from "./ClientUrlNormalizer"; // keeps the safety net
+import ClientUrlNormalizer from "./ClientUrlNormalizer";
 import Script from "next/script";
 
-export const metadata: Metadata = {
+export const metadata = {
   title: "Crepes de France - Νεα Φιλαδέλφια",
   icons: {
     icon: "/crepes_de_france_logo.ico",
@@ -31,9 +30,7 @@ export const metadata: Metadata = {
   },
 };
 
-type RootLayoutProps = { children: ReactNode };
-
-export default function RootLayout({ children }: RootLayoutProps) {
+export default function RootLayout({ children }) {
   return (
     <html lang="el">
       <head>
@@ -41,7 +38,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <meta name="robots" content="noindex,nofollow,noarchive,nosnippet" />
         <meta name="googlebot" content="noindex,nofollow,noimageindex,nosnippet" />
 
-        {/* ✨ Run BEFORE any Next/React script: collapse multiple slashes in the path */}
+        {/* Fix any // in path BEFORE any script runs */}
         <Script id="pre-hydration-slash-normalizer" strategy="beforeInteractive">
           {`
             try {
@@ -51,7 +48,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
                 history.replaceState(null, '', fixed + location.search + location.hash);
               }
             } catch (e) {
-              // As a last resort, hard-redirect to clean root
               try { location.replace('/'); } catch (_) {}
             }
           `}
