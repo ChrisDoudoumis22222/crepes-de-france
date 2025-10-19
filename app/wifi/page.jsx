@@ -8,7 +8,7 @@ import { Wifi, Shield, Copy, Check } from 'lucide-react';
 const CONFIG = {
   shopName: 'Crepes de France',
   ssid: 'Crepes De France',        // αλλάξτε αν χρειάζεται
-  password: '88888888',         // αφήστε κενό για ανοιχτό δίκτυο
+  password: '11111111',         // αφήστε κενό για ανοιχτό δίκτυο
   encryption: 'pass', // "nopass", "WPA", ή "WEP"
 };
 
