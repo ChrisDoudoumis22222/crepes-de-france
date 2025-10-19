@@ -1,0 +1,5 @@
+# Normalize exact // at root (force)
+ //  /  301!
+
+# Best-effort collapse trailing double slash after a path
+/*//  /:splat  301!

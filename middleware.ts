@@ -1,27 +1,25 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
-const CANONICAL = 'shiny-tapioca-ef8b3d.netlify.app';
+const CANONICAL = 'shiny-tapioca-ef8b3d.netlify.app'; // optional canonical host
 
 export function middleware(req: NextRequest) {
   const url = req.nextUrl.clone();
 
-  // (Optional) force canonical host (www or custom domain → your Netlify URL)
+  // (optional) force canonical host
   if (url.hostname !== CANONICAL) {
     url.hostname = CANONICAL;
     return NextResponse.redirect(url, 308);
   }
 
-  // Collapse multiple slashes in PATH only (keep protocol/host/query)
-  const normalizedPath = url.pathname.replace(/\/{2,}/g, '/');
-  if (normalizedPath !== url.pathname) {
-    url.pathname = normalizedPath;
+  // collapse multiple slashes in PATH only
+  const fixed = url.pathname.replace(/\/{2,}/g, '/');
+  if (fixed !== url.pathname) {
+    url.pathname = fixed;
     return NextResponse.redirect(url, 308);
   }
 
   return NextResponse.next();
 }
 
-export const config = {
-  matcher: '/:path*', // run for all paths
-};
+export const config = { matcher: '/:path*' };

@@ -1,19 +1,19 @@
-// app/layout.jsx
+// app/layout.tsx
+import type { Metadata } from "next";
 import "./globals.css";
 import Header from "./components/Header";
 import Loading from "./loading";
-import { Suspense } from "react";
+import { Suspense, ReactNode } from "react";
 import BootLoader from "./components/BootLoader";
-import ClientUrlNormalizer from "./ClientUrlNormalizer"; // ← add this
+import ClientUrlNormalizer from "./ClientUrlNormalizer"; // client component
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Crepes de France - Νεα Φιλαδέλφια",
   icons: {
     icon: "/crepes_de_france_logo.ico",
     shortcut: "/crepes_de_france_logo.ico",
     apple: "/crepes_de_france_logo.ico",
   },
-  // 🚫 Ζητάμε ρητά να μην γίνει index/follow
   robots: {
     index: false,
     follow: false,
@@ -30,16 +30,17 @@ export const metadata = {
   },
 };
 
-export default function RootLayout({ children }) {
+type RootLayoutProps = {
+  children: ReactNode;
+};
+
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="el">
       <head>
-        {/* Διπλή “ασφάλεια” με meta tags */}
+        {/* Extra safety alongside Metadata API */}
         <meta name="robots" content="noindex,nofollow,noarchive,nosnippet" />
-        <meta
-          name="googlebot"
-          content="noindex,nofollow,noimageindex,nosnippet"
-        />
+        <meta name="googlebot" content="noindex,nofollow,noimageindex,nosnippet" />
       </head>
       <body>
         {/* Normalize any accidental double slashes ASAP on the client */}
