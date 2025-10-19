@@ -5,7 +5,8 @@ import Header from "./components/Header";
 import Loading from "./loading";
 import { Suspense, ReactNode } from "react";
 import BootLoader from "./components/BootLoader";
-import ClientUrlNormalizer from "./ClientUrlNormalizer"; // client component
+import ClientUrlNormalizer from "./ClientUrlNormalizer"; // keeps the safety net
+import Script from "next/script";
 
 export const metadata: Metadata = {
   title: "Crepes de France - Νεα Φιλαδέλφια",
@@ -30,9 +31,7 @@ export const metadata: Metadata = {
   },
 };
 
-type RootLayoutProps = {
-  children: ReactNode;
-};
+type RootLayoutProps = { children: ReactNode };
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
@@ -41,9 +40,25 @@ export default function RootLayout({ children }: RootLayoutProps) {
         {/* Extra safety alongside Metadata API */}
         <meta name="robots" content="noindex,nofollow,noarchive,nosnippet" />
         <meta name="googlebot" content="noindex,nofollow,noimageindex,nosnippet" />
+
+        {/* ✨ Run BEFORE any Next/React script: collapse multiple slashes in the path */}
+        <Script id="pre-hydration-slash-normalizer" strategy="beforeInteractive">
+          {`
+            try {
+              var p = location.pathname;
+              if (/\\/\\/{2,}/.test(p)) {
+                var fixed = p.replace(/\\/\\/{2,}/g, '/');
+                history.replaceState(null, '', fixed + location.search + location.hash);
+              }
+            } catch (e) {
+              // As a last resort, hard-redirect to clean root
+              try { location.replace('/'); } catch (_) {}
+            }
+          `}
+        </Script>
       </head>
       <body>
-        {/* Normalize any accidental double slashes ASAP on the client */}
+        {/* Client safety net after hydration */}
         <ClientUrlNormalizer />
 
         <div className="min-h-screen flex flex-col">
