@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Light theme + πορτοκαλί accents */
+:root { color-scheme: light; }
+body { @apply bg-white text-neutral-900; }
+
+.glass { @apply bg-white/80 backdrop-blur-sm border border-neutral-200; }
+.btn { @apply inline-flex items-center justify-center rounded-2xl px-4 py-3 font-medium shadow-sm hover:shadow transition; }
+.btn-lg { @apply px-6 py-4 text-lg; }
+.chip { @apply inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium bg-neutral-100 text-neutral-700; }
+
+.grid-auto { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px,1fr)); gap: 16px; }
+
+.fade-in { animation: fade .35s ease-out both; }
+@keyframes fade { from { opacity:0; transform:translateY(6px) } to { opacity:1; transform:translateY(0) } }
+
+/* Πορτοκαλί accents */
+a.text-accent { @apply text-orange-600; }
+.bg-accent { @apply bg-orange-500; }
+.bg-accent-hover:hover { @apply bg-orange-600; }
+.border-accent { @apply border-orange-500; }
+.text-accent { @apply text-orange-600; }
+
+/* ───────── Category horizontal scroller ───────── */
+.cat-scroll {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;                 /* Firefox */
+  scrollbar-color: #f97316 #fff;         /* thumb / track (orange-500) */
+  mask-image: linear-gradient(to right, transparent 0, black 24px, black calc(100% - 24px), transparent 100%);
+}
+
+/* WebKit scrollbars (Chrome/Edge/Safari) */
+.cat-scroll::-webkit-scrollbar {
+  height: 10px;
+}
+.cat-scroll::-webkit-scrollbar-track {
+  background: #ffffff;
+  border-radius: 999px;
+}
+.cat-scroll::-webkit-scrollbar-thumb {
+  background: #f97316;                   /* orange-500 */
+  border-radius: 999px;
+  border: 2px solid #ffffff;             /* creates a pill look */
+}
+.cat-scroll::-webkit-scrollbar-thumb:hover {
+  background: #ea580c;                   /* orange-600 */
+}
+
+/* optional: lighter track when not hovered */
+.cat-scroll:not(:hover)::-webkit-scrollbar-track {
+  background: #fafafa;
+}

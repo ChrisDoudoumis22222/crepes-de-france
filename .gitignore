@@ -1,0 +1,81 @@
+# ───────── Node / Package Managers ─────────
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+package-lock.json.lck
+.pnpm-store/
+
+# ───────── Build / Output ─────────
+.next/
+.next/cache/
+out/
+dist/
+build/
+.turbo/
+
+# ───────── TypeScript ─────────
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+
+# ───────── Lint / Test / Coverage ─────────
+.eslintcache
+.stylelintcache
+coverage/
+.playwright/
+test-results/
+junit.xml
+
+# ───────── Env & Secrets ─────────
+.env
+.env.*
+!.env.example
+!.env.local.example
+
+# ───────── Editors / OS junk ─────────
+.DS_Store
+*.swp
+*.swo
+Thumbs.db
+Icon?
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.example.json
+
+# ───────── Logs / Runtime ─────────
+*.log
+logs/
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# ───────── Next.js / Vercel / Netlify ─────────
+.vercel/
+.netlify/
+
+# ───────── Misc caches ─────────
+.cache/
+.parcel-cache/
+.tmp/
+temp/
+tmp/
+
+# ───────── Images / Uploads (keep your static assets in /public) ─────────
+# If you generate temp images or uploads during dev, ignore a folder like:
+# public/_tmp/
+public/_tmp/
+
+# ───────── Local tooling ─────────
+*.local
+*.local.json
+
+# ───────── OS-specific metadata ─────────
+ehthumbs.db
+Desktop.ini
+
+# ───────── Optional: lock editor history files ─────────
+*.orig
+*.rej
