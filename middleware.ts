@@ -1,25 +1,25 @@
-import type { NextRequest } from 'next/server';
-import { NextResponse } from 'next/server';
-
-const CANONICAL = 'shiny-tapioca-ef8b3d.netlify.app'; // optional canonical host
+// /middleware.ts
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 
 export function middleware(req: NextRequest) {
-  const url = req.nextUrl.clone();
+  // Normalize only the PATH (leave protocol/host/query alone)
+  const current = req.nextUrl;
+  const fixedPath = current.pathname.replace(/\/{2,}/g, "/");
 
-  // (optional) force canonical host
-  if (url.hostname !== CANONICAL) {
-    url.hostname = CANONICAL;
-    return NextResponse.redirect(url, 308);
-  }
-
-  // collapse multiple slashes in PATH only
-  const fixed = url.pathname.replace(/\/{2,}/g, '/');
-  if (fixed !== url.pathname) {
-    url.pathname = fixed;
-    return NextResponse.redirect(url, 308);
+  if (fixedPath !== current.pathname) {
+    const dest = current.clone();
+    dest.pathname = fixedPath;
+    // 308 permanent; safe for GETs
+    return NextResponse.redirect(dest, 308);
   }
 
   return NextResponse.next();
 }
 
-export const config = { matcher: '/:path*' };
+// Exclude Next internals and common static assets from running the middleware
+export const config = {
+  matcher: [
+    "/((?!_next|favicon.ico|robots.txt|sitemap.xml|.*\\.(?:png|jpg|jpeg|webp|svg|gif|ico|css|js|json)).*)",
+  ],
+};
