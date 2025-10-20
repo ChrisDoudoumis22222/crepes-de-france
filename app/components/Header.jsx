@@ -10,6 +10,7 @@ import {
   Wifi,
   Star,
 } from 'lucide-react';
+import { FaFacebook, FaTiktok } from 'react-icons/fa6';
 
 function NavLink({ href, label, Icon, onClick, className = "", active = false }) {
   return (
@@ -32,10 +33,30 @@ function NavLink({ href, label, Icon, onClick, className = "", active = false })
   );
 }
 
+function SocialIconLink({ href, label, children, className = "" }) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={label}
+      className={[
+        "inline-flex items-center justify-center rounded-xl border px-3 py-2 transition",
+        "border-orange-500 text-orange-700 bg-white hover:bg-orange-50",
+        "focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white",
+        className
+      ].join(' ')}
+    >
+      {children}
+      <span className="sr-only">{label}</span>
+    </a>
+  );
+}
+
 export default function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [path, setPath] = useState('/'); // <-- fixed
+  const [path, setPath] = useState('/');
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -82,20 +103,39 @@ export default function Header() {
 
           {/* Desktop nav */}
           <nav className="hidden sm:flex items-center gap-2">
-            <NavLink href="/"       label="Αρχική"         Icon={Home}        active={path === '/'} />
+            <NavLink href="/"       label="Αρχική"         Icon={Home}         active={path === '/'} />
             <NavLink href="/menu"   label="Μενού"          Icon={BookOpenText} active={path.startsWith('/menu')} />
             <NavLink href="/wifi"   label="Wi-Fi"          Icon={Wifi}         active={path.startsWith('/wifi')} />
             <NavLink href="/review" label="Αφήστε Κριτική" Icon={Star}         active={path.startsWith('/review')} />
           </nav>
 
-          {/* Mobile hamburger */}
-          <button
-            aria-label="Άνοιγμα μενού"
-            className="sm:hidden inline-flex items-center justify-center h-10 w-10 rounded-xl border border-orange-500 text-orange-600 bg-white hover:bg-orange-50 transition"
-            onClick={() => setOpen(true)}
-          >
-            <MenuIcon size={18} />
-          </button>
+          {/* Right actions (desktop social + mobile hamburger) */}
+          <div className="flex items-center gap-2">
+            {/* Social (desktop) */}
+            <div className="hidden sm:flex items-center gap-2">
+              <SocialIconLink
+                href="https://www.facebook.com/crepesdf94/"
+                label="Facebook"
+              >
+                <FaFacebook size={16} />
+              </SocialIconLink>
+              <SocialIconLink
+                href="https://www.tiktok.com/@crepesdefrance_?lang=en"
+                label="TikTok"
+              >
+                <FaTiktok size={16} />
+              </SocialIconLink>
+            </div>
+
+            {/* Mobile hamburger */}
+            <button
+              aria-label="Άνοιγμα μενού"
+              className="sm:hidden inline-flex items-center justify-center h-10 w-10 rounded-xl border border-orange-500 text-orange-600 bg-white hover:bg-orange-50 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+              onClick={() => setOpen(true)}
+            >
+              <MenuIcon size={18} />
+            </button>
+          </div>
         </div>
       </motion.header>
 
@@ -136,7 +176,7 @@ export default function Header() {
                 </div>
                 <button
                   aria-label="Κλείσιμο"
-                  className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-orange-500 text-orange-600 bg-white hover:bg-orange-50 transition"
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-orange-500 text-orange-600 bg-white hover:bg-orange-50 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
                   onClick={() => setOpen(false)}
                 >
                   <XIcon size={18} />
@@ -151,8 +191,29 @@ export default function Header() {
                 <NavLink href="/review" label="Αφήστε Κριτική" Icon={Star}         onClick={() => setOpen(false)} className="w-full justify-start" active={path.startsWith('/review')} />
               </div>
 
+              {/* Social (mobile) */}
+              <div className="px-4 pb-2">
+                <div className="text-xs text-neutral-500 mb-2">Ακολουθήστε μας</div>
+                <div className="flex items-center gap-2">
+                  <SocialIconLink
+                    href="https://www.facebook.com/crepesdf94/"
+                    label="Facebook"
+                    className="flex-1 justify-center"
+                  >
+                    <FaFacebook size={16} />
+                  </SocialIconLink>
+                  <SocialIconLink
+                    href="https://www.tiktok.com/@crepesdefrance_?lang=en"
+                    label="TikTok"
+                    className="flex-1 justify-center"
+                  >
+                    <FaTiktok size={16} />
+                  </SocialIconLink>
+                </div>
+              </div>
+
               {/* Drawer footer */}
-              <div className="mt-auto p-4 text-xs text-neutral-500 border-top border-neutral-200 bg-white">
+              <div className="mt-auto p-4 text-xs text-neutral-500 border-t border-neutral-200 bg-white">
                 © {new Date().getFullYear()} Crepes de France
               </div>
             </motion.aside>
