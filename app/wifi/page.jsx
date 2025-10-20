@@ -9,7 +9,7 @@ const CONFIG = {
   shopName: 'Crepes de France',
   ssid: 'Crepes De France',        // αλλάξτε αν χρειάζεται
   password: '11111111',         // αφήστε κενό για ανοιχτό δίκτυο
-  encryption: 'pass', // "nopass", "WPA", ή "WEP"
+  encryption: 'Password', // "nopass", "WPA", ή "WEP"
 };
 
 function wifiQRString({ ssid, password, encryption }) {

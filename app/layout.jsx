@@ -1,6 +1,7 @@
 // app/layout.jsx
 import "./globals.css";
 import Header from "./components/Header";
+import Footer from "./components/Footer"; // 👈 added
 import Loading from "./loading";
 import { Suspense } from "react";
 import BootLoader from "./components/BootLoader";
@@ -53,17 +54,25 @@ export default function RootLayout({ children }) {
           `}
         </Script>
       </head>
+
       <body>
         {/* Client safety net after hydration */}
         <ClientUrlNormalizer />
 
+        {/* Full page flex container */}
         <div className="min-h-screen flex flex-col">
+          {/* Header always on top */}
           <Header />
-          <main className="mx-auto max-w-6xl w-full px-4 pb-16 pt-6 sm:pt-10">
+
+          {/* Main content */}
+          <main className="flex-grow mx-auto max-w-6xl w-full px-4 pb-16 pt-6 sm:pt-10">
             <BootLoader minMs={600}>
               <Suspense fallback={<Loading />}>{children}</Suspense>
             </BootLoader>
           </main>
+
+          {/* Footer always at the bottom */}
+          <Footer />
         </div>
       </body>
     </html>
